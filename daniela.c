@@ -10,11 +10,20 @@ struct perso
 	int blessure;
 	int tir;
 };
-void rp(char*source, char*destination){
-int l = 0;
- destination[l] = source [0], l++;
+
+void rp(char *source, char *destination,int *l)
+{
+  char *vesselDestination = malloc(20*sizeof(char));
+  strcpy(vesselDestination,destination);
+  vesselDestination[*l] = '-';
+  // printf("%s\n",vesselDestination);
+  *l = *l + 1;
+  vesselDestination[*l] = source;
+  printf("%s\n",vesselDestination);
 }
-void attack(struct perso *persoptrA,  struct perso *persoptrB) {
+
+void attack(struct perso *persoptrA, struct perso *persoptrB)
+{
 
 	time_t t;
 
@@ -68,9 +77,10 @@ void main()
 			necron.blessure = 2;
 			necron.tir = 2;
 
-			int n, deplacement;
+			int n,m,p;
 
-      char strtab[] = "M---N", strtab1[] = "N---M", Necro ='N', Ultraman ='M';
+      char strtab[6] = "M---N", strtab1[6] = "N---M";
+      char Necro = 'N', Ultraman ='M', deplacement;
 
 		  while(n != 1 && n != 2)
 			{
@@ -96,41 +106,35 @@ void main()
 					persoptr2 = &ultramarine;
 			}
 
-      while(persoptr->pv != 0 && persoptr2->pv != 0)
+      while(persoptr->pv != 0 || persoptr2->pv != 0)
       {
         printf("Voulez vous vous déplacez/o = oui, n = non\n");
-        deplacement = getchar();
+        fgets(&deplacement,2,stdin);
+
         if(persoptr = &ultramarine)
         {
-            switch(deplacement)
+            if(deplacement == 'o' || deplacement == 'O')
             {
-            case 'o' :
-            case 'O' :
-            printf("%s\n", strtab);
-            rp(Ultraman, strtab);
-            break;
+                printf("%s\n", strtab);
+                rp(Ultraman, strtab,&p);
             }
         }
-          else if(persoptr = &necron)
-          {
 
-              switch(deplacement)
+        else if(persoptr = &necron)
+        {
+
+              if(deplacement == 'o' || deplacement == 'o')
               {
-              case 'o' :
-              case 'O' :
-              printf("%s\n", strtab1);
-              rp(Necro, strtab1);
-              break;
+                  printf("%s\n", strtab1);
+                  rp(Necro, strtab1,&m);
               }
-          }
-
-        else{
-
-          attack(persoptr, persoptr2);
-	  attack(persoptr2, persoptr);
-
-           }
-
         }
+
+        else {
+          attack(persoptr, persoptr2);
+	        attack(persoptr2, persoptr);
+        }
+
+     }
 
 }
